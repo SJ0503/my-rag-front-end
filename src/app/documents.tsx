@@ -34,7 +34,7 @@ const documents: Document[] = [
 
 export default function DocumentsScreen() {
   const handleUpload = () => {
-    router.push("/uploading");
+    router.push("/login");
   };
 
   const handleSelectDocument = (id: number) => {

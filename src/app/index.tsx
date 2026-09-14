@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function LoadingScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/documents");
+      router.replace("/login");
     }, 2000);
 
     return () => clearTimeout(timer);

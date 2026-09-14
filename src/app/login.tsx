@@ -17,7 +17,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>업로드가 완료됐어요!</Text>
+        <Text style={styles.title}>로그인</Text>
 
         <Text style={styles.subtitle}>
           계속 진행하려면 로그인해주세요.

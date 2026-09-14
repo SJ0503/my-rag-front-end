@@ -16,9 +16,9 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" />
+        <Stack.Screen name="login" />
         <Stack.Screen name="documents" />
         <Stack.Screen name="uploading" />
-        <Stack.Screen name="login" />
         <Stack.Screen name="document/[id]" />
       </Stack>
     </>
