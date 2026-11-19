@@ -1,35 +1,55 @@
-import { router } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 import { styles } from "@/styles/login.styles";
 
+
 export default function LoginScreen() {
+  // Google 로그인 커스텀 Hook
+  const { handleGoogleLogin, isLoading } = useGoogleLogin();
+
+  // 아직 구현하지 않은 로그인 방식
   const handleTemporaryLogin = () => {
-    router.replace({
-      pathname: "/documents/[id]",
-      params: {
-        id: "1",
-      },
-    });
+    Alert.alert(
+      "준비 중",
+      "해당 소셜 로그인 기능은 아직 준비 중입니다."
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
+
+        {/* 로그인 제목 */}
         <Text style={styles.title}>로그인</Text>
 
         <Text style={styles.subtitle}>
           계속 진행하려면 로그인해주세요.
         </Text>
 
+        {/* Google 로그인 */}
         <Pressable
           style={[styles.loginButton, styles.googleButton]}
-          onPress={handleTemporaryLogin}
+          onPress={handleGoogleLogin}
+          disabled={isLoading}
         >
-          <Text>Google로 계속하기</Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text>Google로 계속하기</Text>
+          )}
         </Pressable>
 
+        {/* Kakao 로그인 */}
         <Pressable
           style={[styles.loginButton, styles.kakaoButton]}
           onPress={handleTemporaryLogin}
@@ -37,6 +57,7 @@ export default function LoginScreen() {
           <Text>카카오로 계속하기</Text>
         </Pressable>
 
+        {/* Apple 로그인 */}
         <Pressable
           style={[styles.loginButton, styles.appleButton]}
           onPress={handleTemporaryLogin}
@@ -45,6 +66,7 @@ export default function LoginScreen() {
             Apple로 계속하기
           </Text>
         </Pressable>
+
       </View>
     </SafeAreaView>
   );

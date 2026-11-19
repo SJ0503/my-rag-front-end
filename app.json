@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "Lenary",
@@ -7,6 +8,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "lenary",
     "userInterfaceStyle": "automatic",
+
     "ios": {
       "icon": "./assets/expo.icon",
       "bundleIdentifier": "com.jin.lenary",
@@ -14,6 +16,7 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
+
     "android": {
       "package": "com.jin.lenary",
       "adaptiveIcon": {
@@ -24,10 +27,12 @@
       },
       "predictiveBackGestureEnabled": false
     },
+
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+
     "plugins": [
       "expo-router",
       [
@@ -40,12 +45,20 @@
       ],
       "expo-image",
       "expo-web-browser",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "@react-native-google-signin/google-signin/app.plugin.js",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.526198337783-vsmn89hufed7d74tsma9du7cjeju248k"
+        }
+      ]
     ],
+
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
+
     "extra": {
       "router": {},
       "eas": {

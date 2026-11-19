@@ -26,11 +26,6 @@ export default function LoadingScreen() {
         </Text>
       </View>
 
-      <View style={styles.indicatorContainer}>
-        <View style={styles.activeDot} />
-        <View style={styles.dot} />
-        <View style={styles.dot} />
-      </View>
     </SafeAreaView>
   );
 }
