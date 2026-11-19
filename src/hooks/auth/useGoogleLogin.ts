@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Alert } from "react-native";
 
@@ -9,9 +10,12 @@ import {
 } from "@react-native-google-signin/google-signin";
 
 import { GOOGLE_CONFIG } from "@/constants/config";
+import { loginWithGoogle } from "@/services/authApi";
 
 
+// Google 로그인 설정 여부
 let isConfigured = false;
+
 
 // Google 로그인 초기 설정
 const configureGoogleSignin = () => {
@@ -21,7 +25,7 @@ const configureGoogleSignin = () => {
     throw new Error("Google Client ID가 설정되지 않았습니다.");
   }
 
-  // 앱 실행 중 한 번만 설정
+  // 중복 설정 방지
   if (!isConfigured) {
     GoogleSignin.configure({
       iosClientId,
@@ -33,7 +37,7 @@ const configureGoogleSignin = () => {
 };
 
 
-// Google 로그인 커스텀 Hook
+// Google 로그인 Custom Hook
 export function useGoogleLogin() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,10 +50,10 @@ export function useGoogleLogin() {
       // 1. Google 로그인 설정
       configureGoogleSignin();
 
-      // 2. Google 계정 선택 및 로그인
+      // 2. Google 계정 로그인
       const response = await GoogleSignin.signIn();
 
-      // 3. 로그인 취소 처리
+      // 3. 로그인 취소 확인
       if (!isSuccessResponse(response)) {
         return;
       }
@@ -61,19 +65,33 @@ export function useGoogleLogin() {
         throw new Error("Google ID Token을 받지 못했습니다.");
       }
 
-      // 5. 토큰 수신 성공 확인
-      console.log("Google ID Token 수신 성공");
+      // 5. Google 프로필 이름 가져오기
+      const googleName = response.data.user.name?.trim();
 
+      // 6. FastAPI 로그인 요청
+      const result = await loginWithGoogle(idToken);
+
+      // 7. 화면에 표시할 이름 결정
+      const displayName = googleName || result.user.nickname;
+
+      // 8. 로그인 결과 확인
+      console.log("Lenary 로그인 성공");
+      console.log("회원 ID:", result.user.user_id);
+      console.log("신규 회원 여부:", result.is_new_user);
+      console.log("표시 이름:", displayName);
+
+      // 9. 로그인 성공 알림
       Alert.alert(
-        "Google 인증 성공",
-        "Google ID Token을 정상적으로 받았습니다."
+        "로그인 성공",
+        `${displayName}님, 환영합니다!`
       );
 
-      // 다음 단계:
-      // idToken을 FastAPI /auth/google로 전달
+      // TODO:
+      // JWT SecureStore 저장
+      // documents 화면 이동
 
     } catch (error) {
-      // 사용자가 로그인 창을 닫은 경우
+      // 사용자가 Google 로그인 취소
       if (
         isErrorWithCode(error) &&
         error.code === statusCodes.SIGN_IN_CANCELLED
@@ -91,6 +109,7 @@ export function useGoogleLogin() {
       );
 
     } finally {
+      // 로그인 처리 종료
       setIsLoading(false);
     }
   };
