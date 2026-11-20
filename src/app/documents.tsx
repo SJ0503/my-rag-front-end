@@ -77,7 +77,7 @@ export default function DocumentsScreen() {
           disabled={isLoggingOut}
         >
           <Text>
-            {isLoggingOut ? "처리 중..." : "로그아웃"}
+            {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
           </Text>
         </Pressable>
 

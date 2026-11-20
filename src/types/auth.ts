@@ -1,13 +1,24 @@
 
 /**
- * Google 로그인 요청 데이터
+ * Google 로그인 요청
  */
 export interface GoogleLoginRequest {
   id_token: string;
 }
 
+
 /**
- * Lenary 사용자 정보
+ * Google 로그인 응답
+ */
+export interface GoogleLoginResponse extends AuthTokenPair {
+  message: string;
+  is_new_user: boolean;
+  user: AuthUser;
+}
+
+
+/**
+ * 사용자 정보
  */
 export interface AuthUser {
   user_id: number;
@@ -15,12 +26,11 @@ export interface AuthUser {
 }
 
 /**
- * Google 로그인 응답 데이터
+ * Access + Refresh Token
  */
-export interface GoogleLoginResponse {
-  message: string;
+export interface AuthTokenPair {
   access_token: string;
+  refresh_token: string;
   token_type: string;
-  is_new_user: boolean;
-  user: AuthUser;
+  expires_in: number;
 }

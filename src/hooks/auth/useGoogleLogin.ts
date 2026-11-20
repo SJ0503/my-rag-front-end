@@ -14,9 +14,7 @@ import { loginWithGoogle } from "@/services/authApi";
 
 import { router } from "expo-router";
 
-import {
-    saveAccessToken
-} from "@/storage/authStorage";
+import { saveAuthTokens } from "@/storage/authStorage";
 
 
 // Google 로그인 설정 여부
@@ -100,7 +98,11 @@ export function useGoogleLogin() {
             // 8. JWT 저장
             console.log("[Google] JWT 저장 함수 호출");
 
-            await saveAccessToken(result.access_token);
+            if (!result.access_token || !result.refresh_token) {
+                throw new Error("인증 토큰을 받지 못했습니다.");
+            }
+
+            await saveAuthTokens(result);
 
             console.log("[Google] JWT 저장 처리 완료");
 

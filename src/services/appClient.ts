@@ -30,8 +30,9 @@ export async function postJson<T>(
 
   // HTTP 오류 발생 시 예외 처리
   if (!response.ok) {
-    throw new Error(
-      typeof result.detail === "string"
+    throw new ApiHttpError(
+      response.status,
+      typeof result?.detail === "string"
         ? result.detail
         : `API 요청 실패 (${response.status})`
     );
