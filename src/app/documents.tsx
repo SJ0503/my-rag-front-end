@@ -7,8 +7,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 import { styles } from "@/styles/documents.styles";
+
+import { useLogout } from "@/hooks/auth/useLogout";
+
+
 
 type Document = {
   id: number;
@@ -33,8 +36,12 @@ const documents: Document[] = [
 ];
 
 export default function DocumentsScreen() {
+
+  // 로그아웃 기능 연결
+  const { handleLogout, isLoggingOut } = useLogout();
+
   const handleUpload = () => {
-    router.push("/login");
+    alert("문서 업로드 기능은 현재 개발 중입니다.");
   };
 
   const handleSelectDocument = (id: number) => {
@@ -63,6 +70,15 @@ export default function DocumentsScreen() {
 
         <Pressable style={styles.uploadButton} onPress={handleUpload}>
           <Text style={styles.uploadButtonText}>문서 업로드</Text>
+        </Pressable>
+
+        <Pressable
+          onPress={handleLogout}
+          disabled={isLoggingOut}
+        >
+          <Text>
+            {isLoggingOut ? "처리 중..." : "로그아웃"}
+          </Text>
         </Pressable>
 
         <Text style={styles.sectionTitle}>최근 업로드</Text>

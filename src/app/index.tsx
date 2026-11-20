@@ -24,6 +24,10 @@ export default function LoadingScreen() {
         try {
           // 1. SecureStore에서 JWT 조회
           const accessToken = await getAccessToken();
+          console.log(
+            "[자동 로그인] 저장된 JWT 존재:",
+            accessToken !== null
+          );
 
           // 2. 저장된 토큰이 없으면 로그인 화면 이동
           if (!accessToken) {
@@ -43,7 +47,11 @@ export default function LoadingScreen() {
           }
 
         } catch (error) {
-          console.error("자동 로그인 확인 실패:", error);
+          if (error instanceof ApiHttpError && error.status === 401) {
+            console.log("[Auth] JWT 만료 또는 인증 실패");
+          } else {
+            console.error("[Auth] 자동 로그인 오류:", error);
+          }
 
           // JWT 만료 또는 인증 거부인 경우 삭제
           if (

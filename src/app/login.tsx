@@ -30,7 +30,9 @@ export default function LoginScreen() {
       <View style={styles.content}>
 
         {/* 로그인 제목 */}
-        <Text style={styles.title}>로그인</Text>
+        {/* <Text style={styles.title}>로그인</Text>
+         */}
+         <Text style={styles.title}>로그인 TEST</Text>
 
         <Text style={styles.subtitle}>
           계속 진행하려면 로그인해주세요.

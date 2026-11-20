@@ -80,8 +80,12 @@ export function useGoogleLogin() {
 
             const result = await loginWithGoogle(idToken);
 
-            console.log("[Google] FastAPI 로그인 성공");
-
+            console.log("[TEST-1] FastAPI 로그인 성공");
+            console.log("[TEST-2] JWT 존재:", !!result.access_token);
+            // 2. JWT 존재 여부 확인
+            if (!result.access_token) {
+                throw new Error("서버에서 JWT를 받지 못했습니다.");
+            }
             // 3. API 응답 구조 확인
             console.log(
                 "[4] 응답 필드:",
@@ -108,10 +112,8 @@ export function useGoogleLogin() {
             console.log("회원 ID:", result.user.user_id);
             console.log("신규 회원 여부:", result.is_new_user);
             console.log("표시 이름:", displayName);
-            console.log("표시 이름:", displayName);
-            console.log("JWT 저장 성공", result.access_token);
-
-            // 11. 로그인 성공 안내
+            console.log("JWT 저장 성공");
+            // // 11. 로그인 성공 안내
             Alert.alert(
                 "로그인 성공",
                 `${displayName}님, 환영합니다!`,
