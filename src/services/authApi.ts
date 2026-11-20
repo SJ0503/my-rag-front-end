@@ -31,6 +31,39 @@ export async function loginWithGoogle(
   );
 }
 
+/**
+ * Apple 로그인 API
+ */
+export async function loginWithApple(
+  idToken: string,
+  nonce: string,
+  name?: string,
+): Promise<GoogleLoginResponse> {
+  return postJson<GoogleLoginResponse>(
+    "/auth/apple",
+    {
+      id_token: idToken,
+      nonce,
+      name,
+    }
+  );
+}
+
+/**
+ * Kakao 로그인 API
+ */
+export async function loginWithKakao(
+  accessToken: string,
+): Promise<GoogleLoginResponse> {
+  return postJson<GoogleLoginResponse>(
+    "/auth/kakao",
+    {
+      access_token: accessToken,
+    }
+  );
+}
+
+
 
 /**
  * JWT를 이용한 현재 로그인 회원 조회

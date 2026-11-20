@@ -110,25 +110,27 @@ export function useGoogleLogin() {
             const displayName = googleName || result.user.nickname;
 
             // 10. 로그인 결과 확인
-            console.log("Lenary 로그인 성공");
-            console.log("회원 ID:", result.user.user_id);
-            console.log("신규 회원 여부:", result.is_new_user);
-            console.log("표시 이름:", displayName);
-            console.log("JWT 저장 성공");
+            // console.log("Lenary 로그인 성공");
+            // console.log("회원 ID:", result.user.user_id);
+            // console.log("신규 회원 여부:", result.is_new_user);
+            // console.log("표시 이름:", displayName);
+            // console.log("JWT 저장 성공");
             // // 11. 로그인 성공 안내
-            Alert.alert(
-                "로그인 성공",
-                `${displayName}님, 환영합니다!`,
-                [
-                    {
-                        text: "확인",
-                        onPress: () => {
-                            // 로그인 화면을 문서 목록 화면으로 교체
-                            router.replace("/documents");
-                        },
-                    },
-                ]
-            );
+            // Alert.alert(
+            //     "로그인 성공",
+            //     `${displayName}님, 환영합니다!`,
+            //     [
+            //         {
+            //             text: "확인",
+            //             onPress: () => {
+            //                 // 로그인 화면을 문서 목록 화면으로 교체
+            //                 router.replace("/documents");
+            //             },
+            //         },
+            //     ]
+            // );
+            router.replace("/documents");
+
 
             // TODO:
             // JWT SecureStore 저장
