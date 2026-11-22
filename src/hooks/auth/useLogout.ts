@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Alert } from "react-native";
 
 import {
-    getRefreshToken,
-    removeAuthTokens,
+  getRefreshToken,
+  removeAuthTokens,
 } from "@/storage/authStorage";
 
 import { logoutFromServer } from "@/services/authApi";
@@ -36,7 +36,7 @@ export function useLogout() {
         try {
           await logoutFromServer(refreshToken);
 
-          console.log("[Auth] 서버 세션 폐기 완료");
+          // console.log("[Auth] 서버 세션 폐기 완료");
         } catch (serverError) {
           // 서버 요청 실패 시에도 로컬 로그아웃 진행
           // 단, 서버 세션이 폐기되었다고 보장할 수 없음
@@ -50,7 +50,7 @@ export function useLogout() {
       // 3. SecureStore에 저장된 모든 인증 토큰 삭제
       await removeAuthTokens();
 
-      console.log("[Auth] 로컬 인증 토큰 삭제 완료");
+      // console.log("[Auth] 로컬 인증 토큰 삭제 완료");
 
       // 4. 로그인 화면으로 이동
       router.replace("/login");

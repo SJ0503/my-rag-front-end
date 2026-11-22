@@ -64,13 +64,10 @@ export default function DocumentsScreen() {
           </Text>
 
           <Text style={styles.uploadDescription}>
-            PDF, DOCX, PPTX 파일을 지원해요.
+            PDF, DOCX, PPTX 파일 등을 지원해요.
           </Text>
         </Pressable>
 
-        <Pressable style={styles.uploadButton} onPress={handleUpload}>
-          <Text style={styles.uploadButtonText}>문서 업로드</Text>
-        </Pressable>
 
         <Pressable
           onPress={handleLogout}
@@ -113,11 +110,6 @@ export default function DocumentsScreen() {
         <View style={styles.navigationItem}>
           <Text style={styles.activeNavigationIcon}>▣</Text>
           <Text style={styles.activeNavigationText}>내 문서</Text>
-        </View>
-
-        <View style={styles.navigationItem}>
-          <Text style={styles.navigationIcon}>⌂</Text>
-          <Text style={styles.navigationText}>홈</Text>
         </View>
 
         <View style={styles.navigationItem}>
