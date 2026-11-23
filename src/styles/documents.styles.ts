@@ -140,31 +140,41 @@ export const styles = StyleSheet.create({
     borderTopColor: COLORS.border,
   },
 
+
   navigationItem: {
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,                // 두 메뉴가 동일한 너비 차지
+    height: "100%",
+    alignItems: "center",   // 가로 중앙 정렬
+    justifyContent: "center", // 세로 중앙 정렬
   },
+
 
   activeNavigationIcon: {
-    color: COLORS.navy,
-    fontSize: 22,
-  },
+  color: COLORS.navy,
+  fontSize: 22,
+  lineHeight: 28,
+  textAlign: "center",
+},
 
   navigationIcon: {
-    color: COLORS.secondaryText,
-    fontSize: 22,
-  },
+  color: COLORS.secondaryText,
+  fontSize: 22,
+  lineHeight: 28,
+  textAlign: "center",
+},
 
   activeNavigationText: {
-    marginTop: 4,
-    color: COLORS.navy,
-    fontSize: 10,
-    fontWeight: "700",
-  },
+  marginTop: 3,
+  color: COLORS.navy,
+  fontSize: 10,
+  fontWeight: "700",
+  textAlign: "center",
+},
 
   navigationText: {
-    marginTop: 4,
-    color: COLORS.secondaryText,
-    fontSize: 10,
-  },
+  marginTop: 3,
+  color: COLORS.secondaryText,
+  fontSize: 10,
+  textAlign: "center",
+},
 });

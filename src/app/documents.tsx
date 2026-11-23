@@ -5,7 +5,10 @@ import {
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 import { styles } from "@/styles/documents.styles";
 
@@ -36,7 +39,7 @@ const documents: Document[] = [
 ];
 
 export default function DocumentsScreen() {
-
+  const insets = useSafeAreaInsets();
   // 로그아웃 기능 연결
   const { handleLogout, isLoggingOut } = useLogout();
 
@@ -49,7 +52,10 @@ export default function DocumentsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={styles.container}
+      edges={["top", "left", "right"]}
+    >
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>내 문서</Text>
         <Text style={styles.subtitle}>
