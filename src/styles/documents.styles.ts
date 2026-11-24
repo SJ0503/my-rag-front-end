@@ -151,14 +151,14 @@ export const styles = StyleSheet.create({
 
   activeNavigationIcon: {
   color: COLORS.navy,
-  fontSize: 22,
+  fontSize: 32,
   lineHeight: 28,
   textAlign: "center",
 },
 
   navigationIcon: {
   color: COLORS.secondaryText,
-  fontSize: 22,
+  fontSize: 30,
   lineHeight: 28,
   textAlign: "center",
 },
@@ -166,7 +166,7 @@ export const styles = StyleSheet.create({
   activeNavigationText: {
   marginTop: 3,
   color: COLORS.navy,
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: "700",
   textAlign: "center",
 },

@@ -16,6 +16,7 @@ export default function DocumentDetailScreen() {
 
         <Text style={{ marginTop: 12 }}>
           선택한 문서 ID: {id}
+          문서기능 개발중입니다!
         </Text>
       </View>
     </SafeAreaView>
