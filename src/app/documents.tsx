@@ -14,6 +14,12 @@ import { styles } from "@/styles/documents.styles";
 
 import { useLogout } from "@/hooks/auth/useLogout";
 
+import { Alert } from "react-native";
+
+import {
+  pickDocument,
+  uploadDocument,
+} from "@/services/documentApi";
 
 
 type Document = {
@@ -43,8 +49,37 @@ export default function DocumentsScreen() {
   // 로그아웃 기능 연결
   const { handleLogout, isLoggingOut } = useLogout();
 
-  const handleUpload = () => {
-    alert("문서 업로드 기능은 현재 개발 중입니다.");
+  const handleUpload = async () => {
+    try {
+      // 1. 아이폰 파일 앱에서 문서 선택
+      const file = await pickDocument();
+
+      // 사용자가 선택을 취소한 경우
+      if (!file) return;
+
+      // 2. FastAPI에 파일 전송
+      const result = await uploadDocument(file);
+
+      console.log(
+        "[Document] 업로드 완료:",
+        result.upload_id
+      );
+
+      Alert.alert(
+        "업로드 완료",
+        `${file.name} 문서가 업로드되었습니다.`
+      );
+
+    } catch (error) {
+      console.error("[Document] 업로드 오류:", error);
+
+      Alert.alert(
+        "업로드 실패",
+        error instanceof Error
+          ? error.message
+          : "문서를 업로드할 수 없습니다."
+      );
+    }
   };
 
   const handleSelectDocument = (id: number) => {
