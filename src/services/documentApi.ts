@@ -2,7 +2,7 @@
 import * as DocumentPicker from "expo-document-picker";
 import { File, UploadType } from "expo-file-system";
 
-import { ApiHttpError } from "@/services/appClient";
+import { ApiHttpError, getJson } from "@/services/appClient";
 import { refreshAccessToken } from "@/services/authSession";
 import { getAccessToken } from "@/storage/authStorage";
 
@@ -77,7 +77,7 @@ export async function uploadDocument(
     console.log("[Document] 파일명:", file.name);
     console.log("[Document] 파일 크기:", localFile.size);
 
-    // 네이티브 파일 업로드
+    // 네이티브 파일 업로드W
     const sendFile = (accessToken: string) => {
         return localFile.upload(
             `${API_BASE_URL}/documents/upload`,
@@ -90,6 +90,9 @@ export async function uploadDocument(
                     Authorization: `Bearer ${accessToken}`,
                 },
                 sessionType: "foreground",
+                parameters: {
+                    original_filename: file.name,
+                },
             }
         );
     };
@@ -140,3 +143,110 @@ export async function uploadDocument(
 
     return result as UploadDocumentResponse;
 }
+
+
+/**
+ * MySQL에서 조회한 문서 정보
+ */
+export type MyDocument = {
+    document_id: number;
+    title: string;
+    original_filename: string;
+    file_type: string;
+    file_size: number;
+    processing_status: string;
+    created_at: string;
+};
+
+/**
+ * 로그인한 사용자의 문서 목록 조회
+ */
+export async function getMyDocuments(): Promise<MyDocument[]> {
+    let token = await getAccessToken();
+
+    if (!token) {
+        token = await refreshAccessToken();
+    }
+
+    try {
+        return await getJson<MyDocument[]>("/documents", token);
+    } catch (error) {
+        // Access Token 만료가 아닌 오류는 그대로 전달
+        if (
+            !(error instanceof ApiHttpError) ||
+            error.status !== 401
+        ) {
+            throw error;
+        }
+
+        // Access Token 재발급 후 다시 조회
+        const latestToken = await getAccessToken();
+
+        const newToken =
+            latestToken && latestToken !== token
+                ? latestToken
+                : await refreshAccessToken();
+
+        return getJson<MyDocument[]>("/documents", newToken);
+    }
+}
+
+
+/**
+ * 문서 제목 변경
+ */
+export async function updateDocumentTitle(
+  documentId: number,
+  title: string
+): Promise<void> {
+  if (!API_BASE_URL) {
+    throw new Error("서버 주소가 설정되지 않았습니다.");
+  }
+
+  const newTitle = title.trim();
+
+  if (!newTitle || newTitle.length > 255) {
+    throw new Error(
+      "문서 제목은 1~255자로 입력해주세요."
+    );
+  }
+
+  const sendRequest = (token: string) =>
+    fetch(`${API_BASE_URL}/documents/${documentId}/title`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: newTitle }),
+    });
+
+  let token = await getAccessToken();
+
+  if (!token) {
+    token = await refreshAccessToken();
+  }
+
+  let response = await sendRequest(token);
+
+  // 만료된 Access Token 재발급
+  if (response.status === 401) {
+    const latestToken = await getAccessToken();
+
+    token =
+      latestToken && latestToken !== token
+        ? latestToken
+        : await refreshAccessToken();
+
+    response = await sendRequest(token);
+  }
+
+  if (!response.ok) {
+    throw new ApiHttpError(
+      response.status,
+      `문서 제목 변경 실패 (${response.status})`
+    );
+  }
+}
+
+

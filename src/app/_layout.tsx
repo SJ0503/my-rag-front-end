@@ -20,6 +20,7 @@ export default function RootLayout() {
         <Stack.Screen name="documents" />
         <Stack.Screen name="uploading" />
         <Stack.Screen name="documents/[id]" />
+        <Stack.Screen name="mypage" />
       </Stack>
     </>
   );
